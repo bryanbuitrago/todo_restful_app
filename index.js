@@ -1,15 +1,14 @@
 let express = require('express'),
     app = express(),
     port = process.env.PORT || 8080,
-    log = console.log;
+    log = console.log,
+    todoRoutes = require('./routes/todos');
 
 app.get('/', (req, res) => {
-  res.send('Hi There From Express');
+  res.send('HELLO FROM THE ROOT ROUTE');
 });
 
-app.get('/happy', (req, res) => {
-  res.send('Cause Im Happy');
-});
+app.use('/api/todos', todoRoutes);
 
 app.listen(port, () => {
   log(`App is running on port: ${port}`)
