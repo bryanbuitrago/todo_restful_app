@@ -17,7 +17,7 @@ router.post('/', (req, res) => {
   .then((newTodo) => res.status(201).json(newTodo))
   .catch((err) => res.send(err));
 });
-
+// Find a todo
 router.get('/:todoId', (req, res) => {
   db.Todo.findById(req.params.todoId)
   .then((foundTodo) => res.status(201).json(foundTodo))
