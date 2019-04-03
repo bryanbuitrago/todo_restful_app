@@ -31,4 +31,11 @@ router.put('/:todoId', (req, res) =>{
   .then((todo) => res.json(todo))
   .catch((err) => res.send(err));
 });
+
+// Delete a todo
+router.delete('/:todoId', (req, res) => {
+  db.Todo.deleteOne({_id: req.params.todoId})
+  .then(() => res.json({message: 'Todo was deleted'}))
+  .catch((err) => res.send(err));
+});
 module.exports = router;
