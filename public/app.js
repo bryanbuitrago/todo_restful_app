@@ -7,7 +7,12 @@ $(document).ready(function(){
       createTodo();
     }
   });
-  $('.list').on('click', 'span', function() {
+  $('.list').on('click', 'li', function() {
+    updateTodo($(this));
+    // console.log($(this));
+  })
+  $('.list').on('click', 'span', function(e) {
+    e.stopPropagation()
      removeTodo($(this).parent());
   });
 });
@@ -22,6 +27,7 @@ function addTodos(todos) {
 function addTodo(todo) {
   var newTodo = $('<li>' + todo.name + ' <span>X</span></li>');
   newTodo.addClass('task');
+  newTodo.data('completed', todo.completed)
   newTodo.data('id', todo._id);
   if(todo.completed) {
     newTodo.addClass('done');
@@ -51,5 +57,21 @@ function removeTodo(todo) {
   })
   .then(function(data) {
     todo.remove();
+  });
+}
+
+function updateTodo(todo) {
+  var updateUrl = '/api/todos/' + todo.data('id');
+  var isDone = !todo.data('completed');
+  var updateData = {completed: isDone}
+  $.ajax({
+    method: 'PUT',
+    url: updateUrl,
+    data: updateData
+  })
+
+  .then(function(data){
+    todo.toggleClass('done');
+    todo.data('completed', isDone);
   });
 }
